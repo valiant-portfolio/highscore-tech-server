@@ -480,9 +480,73 @@ const updateStudentProfile = async (req, res) => {
   }
 };
 
+const fetchAllStudents = async (req, res)=>{
+  try{
+    const allUsers = await User.find()
+    return res.status(200).json({allUsers})
+  }
+  catch(err){
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error while updating profile'
+    });
+  }
+}
+
+const fetchStudentsById = async (req, res)=>{
+  try{
+    const {id} = req.params
+    if(!id){
+        res.status(500).json({
+          success: false,
+          message: 'Invalid Student Id'
+        });
+      return
+
+    }
+    const user = await User.findOne({studentId: id})
+    return res.status(200).json({user})
+  }
+  catch(err){
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error while updating profile'
+    });
+  }
+}
+
+
+const updateStudentCurrentModule = async (req, res)=>{
+  try{
+    const {currentModule} = req.body
+    const {id} = req.params
+    if(!currentModule){
+      return  res.status(500).json({
+        success: false,
+        message: 'Module must have a value'
+      });
+    }
+   const updatedUser = await User.findOneAndUpdate({studentId: id},{
+       "progress.currentModule": currentModule
+    })
+
+    return res.status(200).json({updatedUser})
+  }
+  catch(err){
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error while updating profile'
+    });
+  }
+}
+
+
 module.exports = {
   registerStudent,
   loginStudent,
   getStudentData,
-  updateStudentProfile
+  updateStudentProfile,
+  fetchAllStudents,
+  fetchStudentsById,
+  updateStudentCurrentModule
 };
