@@ -358,7 +358,17 @@ const generateAdminNotificationEmail = (studentData) => {
                 <div class="course-title">${course.courseName}</div>
                 <div class="course-meta">
                     ${course.duration} Month Program • ${course.level} • 
-                    ₦${course.price.toLocaleString()}
+                    ₦${course.price?.toLocaleString() || 'TBD'}
+                </div>
+            </div>
+            
+            <!-- Urgent Notice -->
+            <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 15px; padding: 20px; margin: 25px 0; text-align: center;">
+                <div style="font-size: 16px; font-weight: bold; color: #ffffff; margin-bottom: 8px;">
+                    💡 Action Required
+                </div>
+                <div style="font-size: 14px; color: #ffffff; opacity: 0.9;">
+                    Please contact the student within 24 hours to confirm registration and provide course access details.
                 </div>
             </div>
             

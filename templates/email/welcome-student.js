@@ -160,6 +160,7 @@ const generateWelcomeEmail = (studentData) => {
             justify-content: space-between;
             align-items: center;
             padding: 15px 0;
+            gap:10px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
@@ -237,21 +238,7 @@ const generateWelcomeEmail = (studentData) => {
             color: #e2e8f0;
         }
         
-        .step-number {
-            background: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
-            color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-            margin-right: 15px;
-            flex-shrink: 0;
-        }
-        
+
         /* CTA Button */
         .cta-container {
             text-align: center;
@@ -345,17 +332,6 @@ const generateWelcomeEmail = (studentData) => {
     <div class="email-container">
         <div class="particles"></div>
         <div class="content">
-            <!-- Header -->
-            <div class="header">
-                <div class="logo-container">
-                    <div class="logo-circle">
-                        <div class="logo-text">HT</div>
-                    </div>
-                </div>
-                <div class="company-name">HighScore Tech</div>
-                <div class="tagline">Elevating Technology, Empowering Developers</div>
-            </div>
-            
             <!-- Main Content -->
             <div class="main-content">
                 <div style="text-align: center;">
@@ -374,28 +350,56 @@ const generateWelcomeEmail = (studentData) => {
                 <!-- Student Information -->
                 <div class="student-info">
                     <div class="info-row">
-                        <div class="info-label">Full Name</div>
+                        <div class="info-label">Full Name: </div>
                         <div class="info-value">${firstName} ${lastName}</div>
                     </div>
                     <div class="info-row">
-                        <div class="info-label">Student ID</div>
+                        <div class="info-label">Student ID: </div>
                         <div class="info-value">${studentId}</div>
                     </div>
                     <div class="info-row">
-                        <div class="info-label">Course Start Date</div>
+                        <div class="info-label">Course Start Date: </div>
                         <div class="info-value">${formatDate(courseStartDate)}</div>
                     </div>
                     <div class="info-row">
-                        <div class="info-label">Registration Date</div>
+                        <div class="info-label">Registration Date: </div>
                         <div class="info-value">${formatDate(new Date())}</div>
                     </div>
                 </div>
                 
                 <!-- Course Highlight -->
                 <div class="course-highlight">
-                    <div class="course-icon">${course.icon}</div>
+                    <div class="course-icon">${course.icon || '🎓'}</div>
                     <div class="course-name">${course.courseName}</div>
                     <div class="course-duration">${course.duration} Month Program • ${course.level}</div>
+                    <div style="margin-top: 15px; font-size: 18px; font-weight: bold;">
+                        Investment: ₦${course.price?.toLocaleString() || 'TBD'}
+                    </div>
+                </div>
+                
+                <!-- Course Modules Preview -->
+                <div style="background: rgba(255, 255, 255, 0.03); border-radius: 15px; padding: 25px; margin: 25px 0; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <h3 style="color: #06b6d4; font-size: 18px; margin-bottom: 20px; text-align: center;">
+                        📚 What You'll Learn
+                    </h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div style="background: rgba(37, 99, 235, 0.1); padding: 15px; border-radius: 10px; border-left: 3px solid #2563eb;">
+                            <div style="color: #60a5fa; font-size: 12px; font-weight: bold; margin-bottom: 5px;">MODULE 1</div>
+                            <div style="color: #ffffff; font-size: 14px;">Fundamentals & Setup</div>
+                        </div>
+                        <div style="background: rgba(6, 182, 212, 0.1); padding: 15px; border-radius: 10px; border-left: 3px solid #06b6d4;">
+                            <div style="color: #22d3ee; font-size: 12px; font-weight: bold; margin-bottom: 5px;">MODULE 2</div>
+                            <div style="color: #ffffff; font-size: 14px;">Core Concepts</div>
+                        </div>
+                        <div style="background: rgba(124, 58, 237, 0.1); padding: 15px; border-radius: 10px; border-left: 3px solid #7c3aed;">
+                            <div style="color: #a78bfa; font-size: 12px; font-weight: bold; margin-bottom: 5px;">MODULE 3</div>
+                            <div style="color: #ffffff; font-size: 14px;">Advanced Topics</div>
+                        </div>
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 15px; border-radius: 10px; border-left: 3px solid #ec4899;">
+                            <div style="color: #f472b6; font-size: 12px; font-weight: bold; margin-bottom: 5px;">MODULE 4</div>
+                            <div style="color: #ffffff; font-size: 14px;">Real Projects</div>
+                        </div>
+                    </div>
                 </div>
                 
                 <!-- Next Steps -->
@@ -403,19 +407,18 @@ const generateWelcomeEmail = (studentData) => {
                     <h3>🚀 What's Next?</h3>
                     <ul class="step-list">
                         <li class="step-item">
-                            <div class="step-number">1</div>
                             <div>Check your email for course materials and pre-course resources</div>
                         </li>
                         <li class="step-item">
-                            <div class="step-number">2</div>
+                            
                             <div>Join our student WhatsApp group for updates and community support</div>
                         </li>
                         <li class="step-item">
-                            <div class="step-number">3</div>
+                         
                             <div>Access your student dashboard to track progress and assignments</div>
                         </li>
                         <li class="step-item">
-                            <div class="step-number">4</div>
+                           
                             <div>Prepare for your exciting journey - course starts ${formatDate(courseStartDate)}</div>
                         </li>
                     </ul>
@@ -436,13 +439,7 @@ const generateWelcomeEmail = (studentData) => {
             
             <!-- Footer -->
             <div class="footer">
-                <div class="social-links">
-                    <a href="#" class="social-link">𝕏</a>
-                    <a href="#" class="social-link">in</a>
-                    <a href="#" class="social-link">f</a>
-                    <a href="#" class="social-link">📧</a>
-                </div>
-                
+ 
                 <div class="footer-text">
                     <strong>HighScore Tech</strong><br>
                     Premier Software Development & Training Academy<br>
