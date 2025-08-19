@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require('body-parser');
 const routeManager = require('./routes/route.manager.js');
+require("./services/nodemailer/index.js")
 // const { createsocket } = require("./socket/index.js");
 const { createServer } = require("node:http");
 

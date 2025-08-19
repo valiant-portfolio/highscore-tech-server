@@ -1,11 +1,10 @@
-
 const nodemailer = require('nodemailer');
-
+// ujrn lebg iige cakr
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
     user: 'valiantcodez@gmail.com',
-    pass: 'diwm dqjt dmnu atss'
+    pass: 'ujrn lebg iige cakr'
   },
 });
 
@@ -36,5 +35,7 @@ const sendEmail = async (to, subject, html) => {
     };
   }
 };
+
+
 
 module.exports = sendEmail;

@@ -2,6 +2,9 @@ const User = require('../model/user.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { coursesData } = require('../data/coursesData'); // Assuming you'll move this to server
+const sendEmail = require('../services/nodemailer/index');
+const generateWelcomeEmail = require('../templates/email/welcome-student');
+const generateAdminNotificationEmail = require('../templates/email/admin-notification');
 // Generate JWT Token
 const generateToken = (userId) => {
   return jwt.sign(
@@ -246,6 +249,59 @@ const registerStudent = async (req, res) => {
     // Generate JWT token
     const token = generateToken(savedUser._id);
 
+    // Send welcome email to student
+    try {
+      const studentEmailData = {
+        firstName: savedUser.firstName,
+        lastName: savedUser.lastName,
+        studentId: savedUser.studentId,
+        course: savedUser.course,
+        courseStartDate: savedUser.courseStartDate,
+        email: savedUser.email
+      };
+
+      const welcomeEmailHtml = generateWelcomeEmail(studentEmailData);
+      const studentEmailResult = await sendEmail(
+        savedUser.email,
+        `🎉 Welcome to HighScore Tech, ${savedUser.firstName}!`,
+        welcomeEmailHtml
+      );
+
+      console.log('Welcome email sent:', studentEmailResult.success ? 'Success' : 'Failed');
+    } catch (emailError) {
+      console.error('Error sending welcome email:', emailError);
+      // Don't fail registration if email fails
+    }
+
+    // Send notification email to admin
+    try {
+      const adminEmailData = {
+        firstName: savedUser.firstName,
+        lastName: savedUser.lastName,
+        email: savedUser.email,
+        phoneNumber: savedUser.phoneNumber,
+        studentId: savedUser.studentId,
+        course: savedUser.course,
+        address: savedUser.address,
+        country: savedUser.country,
+        city: savedUser.city,
+        learningMode: savedUser.learningMode,
+        selectedCourse: savedUser.selectedCourse
+      };
+
+      const adminNotificationHtml = generateAdminNotificationEmail(adminEmailData);
+      const adminEmailResult = await sendEmail(
+        'valiantjoee@gmail.com',
+        `🔔 New Student Registration: ${savedUser.firstName} ${savedUser.lastName}`,
+        adminNotificationHtml
+      );
+
+      console.log('Admin notification email sent:', adminEmailResult.success ? 'Success' : 'Failed');
+    } catch (emailError) {
+      console.error('Error sending admin notification email:', emailError);
+      // Don't fail registration if email fails
+    }
+
     // Remove password from response
     const userResponse = savedUser.toObject();
     delete userResponse.password;
@@ -322,7 +378,7 @@ const loginStudent = async (req, res) => {
     if (!user) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid email or password'
+        message: 'You do not have an account with us'
       });
     }
 
@@ -331,7 +387,7 @@ const loginStudent = async (req, res) => {
     if (!isPasswordValid) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid email or password'
+        message: 'Incorrect Password'
       });
     }
 
