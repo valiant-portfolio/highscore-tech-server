@@ -3,6 +3,7 @@ const cors = require("cors");
 const bodyParser = require('body-parser');
 const routeManager = require('./routes/route.manager.js');
 require("./services/nodemailer/index.js")
+const { blogs } = require('./data/blogData.js');
 // const { createsocket } = require("./socket/index.js");
 const { createServer } = require("node:http");
 
@@ -27,6 +28,17 @@ routeManager(app)
 
 app.get("/", (req, res) => {
   res.send("Welcome to Wager backend server");
+})
+
+
+app.get("/api/get-all-blogs", (req, res) => {
+  try {
+    // In a real application, you would fetch this from a database.
+    // For now, we are just returning the dummy data.
+    res.status(200).json(blogs);
+  } catch (error) {
+    next(error);
+  }
 })
 
 app.use(function (err, req, res, next) {
